@@ -87,7 +87,10 @@ def get_all_val_list(worksheet):
 	return val_list
 
 
+def append_row(worksheet,val):
+	worksheet.append_row(val)
 
+	
 #scope = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
 
 #Account = createAccount('D:/googlesheet/key/credentials.json',scope)
