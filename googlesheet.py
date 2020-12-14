@@ -67,8 +67,6 @@ def update_vel(worksheet,cell,vel):
 	worksheet.update(cell,vel)
 
 
-
-
 scope = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
 
 #Account = createAccount('D:/googlesheet/key/credentials.json',scope)
