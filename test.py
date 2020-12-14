@@ -35,6 +35,7 @@ print (sheet.get('A1:B2',))
 
 def test(): 
 	print 'test'
+	print 'test'
 
 def test2(): 
 	print 'test2'
