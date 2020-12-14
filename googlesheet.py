@@ -63,11 +63,25 @@ def select_worksheetByTitle(sheet,title):
 def new_worksheet(sheet,title,row,column,index=None):
 	sheet.add_worksheet(title=title, rows=row, cols=column,index=index)
 
-def update_vel(worksheet,cell,vel):
-	worksheet.update(cell,vel)
+def update_val(worksheet,cell,val):
+	worksheet.update(cell,val)
 
+def get_val(worksheet,cell):
+	val = worksheet.acell(cell).value
 
-scope = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
+	return val
+
+def get_all_val_dicts(worksheet):
+	val_dicts = worksheet.get_all_records()
+
+	return val_dicts
+
+def get_all_val_list(worksheet):
+	val_list = sheet.get_all_values()
+
+	return val_list
+
+#scope = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
 
 #Account = createAccount('D:/googlesheet/key/credentials.json',scope)
 

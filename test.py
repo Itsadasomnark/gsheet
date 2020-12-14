@@ -15,7 +15,7 @@ worksheet = client.open('test2')
 
 sheet = worksheet.worksheet('A worksheet')
 
-print (sheet.get('A1:B2',))
+#print (sheet.get('A1:B2',))
 
 #worksheet.add_worksheet(title='title', rows=100, cols=20,index=0)
 
@@ -33,15 +33,6 @@ print (sheet.get('A1:B2',))
 #worksheet.remove_permissions('i.somnark@gmail.com')
 #print ()
 
-def test(): 
-	print 'test'
-	print 'test'
+cell_list = sheet.get_all_values()
 
-def test2(): 
-	print 'test2'
-
-def test3():
-	pass
-
-def test4(): 
-	pass 
+print (cell_list)
