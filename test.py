@@ -32,3 +32,6 @@ print (sheet.get('A1:B2',))
 #print (dataframe.columns.values.tolist())
 #worksheet.remove_permissions('i.somnark@gmail.com')
 #print ()
+
+def test(): 
+	print 'test'
