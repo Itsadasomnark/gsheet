@@ -25,15 +25,15 @@ sheet = worksheet.worksheet('A worksheet')
 
 #cell = w2.find("Boss")
 #val = w2.acell('A1').value
-
-#w2.update('A1:B2', [[1, 2], [3, 4]])
+report_line = ['name2', 'finished <None or int>', 'duration <str>', 'id']
+sheet.append_row(report_line)
 
 #dataframe = pd.DataFrame(w2.get_all_records())
 #print (dataframe.columns.values.tolist())
 #worksheet.remove_permissions('i.somnark@gmail.com')
 #print ()
 
-cell_list = sheet.get('B1:B4')
-val = sheet.acell('B1').value
+cell_list = sheet.cell(1,1).value
+#val = sheet.acell('B1').value
 
-print (cell_list,val)
+print (cell_list)
