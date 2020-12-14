@@ -66,8 +66,13 @@ def new_worksheet(sheet,title,row,column,index=None):
 def update_val(worksheet,cell,val):
 	worksheet.update(cell,val)
 
-def get_val(worksheet,cell):
-	val = worksheet.acell(cell).value
+def get_val_acell(worksheet,cell):
+	val = worksheet.get(cell)
+
+	return val
+
+def get_val_cell(worksheet,row,column):
+	val = worksheet.cell(row, column).value
 
 	return val
 
@@ -80,6 +85,8 @@ def get_all_val_list(worksheet):
 	val_list = sheet.get_all_values()
 
 	return val_list
+
+
 
 #scope = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
 

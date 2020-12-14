@@ -33,6 +33,7 @@ sheet = worksheet.worksheet('A worksheet')
 #worksheet.remove_permissions('i.somnark@gmail.com')
 #print ()
 
-cell_list = sheet.get_all_values()
+cell_list = sheet.get('B1:B4')
+val = sheet.acell('B1').value
 
-print (cell_list)
+print (cell_list,val)
