@@ -94,10 +94,7 @@ def finditem(worksheet,val):
 	list_cell = worksheet.findall(val)
 
 	return list_cell
-#scope = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
 
-#Account = createAccount('D:/googlesheet/key/credentials.json',scope)
+def add_column(worksheet,val):
+	worksheet.add_cols(val)
 
-#sheet = openByURL(Account,'https://docs.google.com/spreadsheets/d/1c8F2L0ndzgv1qzf5on7-J3t0GHLaQ1f3gznfJ6Ad7AQ/edit?usp=sharing')
-
-#new_worksheet(sheet,'test2',10,20)
