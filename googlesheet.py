@@ -98,3 +98,6 @@ def finditem(worksheet,val):
 def add_column(worksheet,val):
 	worksheet.add_cols(val)
 
+def add_row(worksheet,val):
+	worksheet.add_rows(val)
+
