@@ -152,5 +152,3 @@ def test():
 	list_cell = finditem(ws, 'Itsada')
 	row = list_cell[0].row
 	column = list_cell[0].col
-
-test()
