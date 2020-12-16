@@ -89,6 +89,10 @@ def get_all_val_list(worksheet):
 
 	return val_list
 
+def get_col_val(worksheet,col):
+	values_list = worksheet.col_values(col)
+
+	return values_list
 def append_row(worksheet,val):
 	worksheet.append_row(val)
 
@@ -102,6 +106,14 @@ def add_column(worksheet,val):
 
 def add_row(worksheet,val):
 	worksheet.add_rows(val)
+
+def list_worksheet(sheet):
+	ws_list = sheet.worksheets()
+	title_list = []
+
+	for wsh in ws_list:
+		title_list.append(wsh.title)
+	return title_list
 
 def test():
 	scope = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
@@ -152,3 +164,29 @@ def test():
 	list_cell = finditem(ws, 'Itsada')
 	row = list_cell[0].row
 	column = list_cell[0].col
+
+def add_record(project, user,scene_path,duration=15):
+	from datetime import date
+	scope = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
+	keysfile = 'D:/googlesheet/key/credentials.json'
+	client = createAccount(keysfile,scope)
+	sheet = openByURL(client, 'https://docs.google.com/spreadsheets/d/1fcSg0yy5g5Dx9oBnYD4Rdj5Hl9WtjBj5l_fyutcKDZk/edit#gid=0')
+	
+	today = date.today()
+	date = today.strftime("%d/%m/%Y")
+
+	ws_list = list_worksheet(sheet)
+	if project not in ws_list:
+		ws = new_worksheet(sheet,project,10,10)
+	else:
+		ws = select_worksheetByTitle(sheet,project)
+
+	user_old = get_col_val(ws,2)
+	if user not in user_old:
+		ws.append_row([date,user,duration,scene_path])
+
+
+
+
+
+add_record('Himmapan','wee','D:/AnimeDS/scenes/blade.mb')
