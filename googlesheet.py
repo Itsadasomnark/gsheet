@@ -165,11 +165,11 @@ def test():
 	row = list_cell[0].row
 	column = list_cell[0].col
 
-def add_record(project, user,scene_path,duration=15):
+def add_record(project, user,path,duration=15):
 	from datetime import date
 	scope = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
 	keysfile = 'D:/googlesheet/key/credentials.json'
-	client = createAccount(keysfile,scope)
+	client = createAccount(keysfile, scope)
 	sheet = openByURL(client, 'https://docs.google.com/spreadsheets/d/1fcSg0yy5g5Dx9oBnYD4Rdj5Hl9WtjBj5l_fyutcKDZk/edit#gid=0')
 	
 	today = date.today()
@@ -177,16 +177,35 @@ def add_record(project, user,scene_path,duration=15):
 
 	ws_list = list_worksheet(sheet)
 	if project not in ws_list:
-		ws = new_worksheet(sheet,project,10,10)
+		new_worksheet(sheet, project, 10, 10)
+		ws = select_worksheetByTitle(sheet, project)
+		append_row(ws,['Date', 'User', 'Duration', 'Path'])
 	else:
-		ws = select_worksheetByTitle(sheet,project)
+		ws = select_worksheetByTitle(sheet, project)
 
-	user_old = get_col_val(ws,2)
+	user_old = get_col_val(ws, 2)
 	if user not in user_old:
-		ws.append_row([date,user,duration,scene_path])
+		append_row(ws,[date, user, duration, path])
+	else:
+		user_cell = finditem(ws, user)
+		old_date_list = {}
+		for cell in user_cell:
+			old_date = get_val_acell(ws,'A{}'.format(cell.row))
+			old_date_list[old_date[0][0]] = cell
+		
+		if date not in old_date_list.keys():
+			append_row(ws,[date, user, duration, path])
+		else:
+			for old in old_date_list.keys():
+				if date == old:
+					current_cell = old_date_list[old]
+					old_dul = get_val_cell(ws, current_cell.row, 3)
+					new_dul = int(old_dul)+duration
+					update_val_cell(ws, current_cell.row, 3, new_dul)
+					old_path = get_val_cell(ws, current_cell.row, 4)
+					old_path_list = old_path.split(',')
+					if path not in old_path_list:
+						new_path = old_path + ',{}'.format(path)
+						update_val_cell(ws, current_cell.row, 4, new_path)
 
-
-
-
-
-add_record('Himmapan','wee','D:/AnimeDS/scenes/blade.mb')
+add_record('Himmapan','peet','D:/AnimeDS/scenes/new_blade.mb')
