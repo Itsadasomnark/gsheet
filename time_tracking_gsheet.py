@@ -36,7 +36,6 @@ def generate_graph(title, project, data):
 		sheet.add_worksheet(title=project, rows=1000, cols=1000,index=None)
 		wsh = sheet.worksheet(project)
 		wsh.append_row(['User', 'Department', 'Hours'])
-######################add infomation#########################	
 	for key in data.keys():
 		department = data[key]['department']
 		hours = data[key]['hours']
