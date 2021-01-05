@@ -179,7 +179,7 @@ def add_record(project, user, path, duration=15):
 	if project not in ws_list:
 		new_worksheet(sheet, project, 10, 10)
 		ws = select_worksheetByTitle(sheet, project)
-		append_row(ws,['Date', 'User', 'Duration', 'Path'])
+		append_row(['Date', 'User', 'Duration', 'Path'])
 	else:
 		ws = select_worksheetByTitle(sheet, project)
 
