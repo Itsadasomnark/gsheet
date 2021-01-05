@@ -165,7 +165,7 @@ def test():
 	row = list_cell[0].row
 	column = list_cell[0].col
 
-def add_record(project, user,path,duration=15):
+def add_record(project, user, path, duration=15):
 	from datetime import date
 	scope = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
 	keysfile = 'D:/googlesheet/key/credentials.json'
