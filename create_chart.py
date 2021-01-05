@@ -5,7 +5,7 @@ API_NAME = 'sheets'
 API_VERSION = 'v4'
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
-serice = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
 spreadsheet_id = '11asdfl3sd5DSDLEADFIHY73f6e3gd-x3YadlkjY7C8'
 sheet_id = '651526025' #put sheet id 
 """

@@ -2,6 +2,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 from pprint import pprint
 import pandas as pd
+from googleapiclient.discovery import build
 ################# install gspread ##################
 ######## install or upgrade oauth2client ###########
 
@@ -18,12 +19,13 @@ def createAccount(keysfile):
 	scope = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
 	credentials = ServiceAccountCredentials.from_json_keyfile_name(keysfile,scope)
 	client = gspread.authorize(credentials)
-	return client
+	service = build('sheets', 'v4', credentials=credentials)
+	return client, service
 
 def generate_graph(title, project, data):
 	keysfile = 'D:/scripts/gsheet/key/credentials.json'
 	
-	client = createAccount(keysfile)
+	client, service = createAccount(keysfile)
 	try:
 		sheet = client.open(title)
 	except:
@@ -40,6 +42,60 @@ def generate_graph(title, project, data):
 		department = data[key]['department']
 		hours = data[key]['hours']
 		wsh.append_row([key, department, hours])
+	request_body = {
+					    'requests' : [
+					        {
+					            'addchart':{
+					                'chart':{
+					                    'spec':{
+					                        'title': 'Time Tracking', #title of chart
+					                        'basicChart' :{
+					                            'chartType': 'COLUMN',
+					                            'legendPosition' : 'BOTTOM_LEGEND'
+					                            'axis': [
+					                                # X-AIXS
+					                                {
+					                                    'position': "BOTTOM_AXIS"
+					                                    'title': 'User' #title of x-axis
+					                                },
+					                                # Y-AIXS
+					                                {
+					                                    'position': "LEFT_AXIS"
+					                                    'title': 'Time' #title of y-axis
+					                                }
+					                            ],
 
+					                            'series': [
+					                                {
+					                                    'series': {
+					                                        'sourcesRange':{
+					                                            'sources':[
+					                                                {
+					                                                    'sheetId': wsh.id,
+					                                                    'startRowIndex': 1, # set start Row here!
+					                                                    'endRowIndex': 8, # set end Row here!
+					                                                    'startColumnIndex': 1, # set start Column here!
+					                                                    'endColumnIndex': 3  # set end Column here!
+					                                                }
+					                                            ]
+					                                        }
+					                                    },
+					                                    'targetAxis': 'LEFT_AXIS'
+					                                }
+					                            ]
+					                        }
+					                    },
+					                    'position': {
+					                        ''
+					                    }
+					                }
+					            }
+					        }
+					    ]
+					}
+	response = service.spreadsheets().batchUpate(
+    spreadsheetId=sheet.id,
+    body=request_body
+	).execute()
 if __name__ == '__main__':
 	generate_graph('new', 'd', data)
