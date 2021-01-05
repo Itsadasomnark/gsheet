@@ -3,6 +3,7 @@ import gspread
 from pprint import pprint
 import pandas as pd
 from googleapiclient.discovery import build
+
 ################# install gspread ##################
 ######## install or upgrade oauth2client ###########
 
@@ -45,36 +46,57 @@ def generate_graph(title, project, data):
 	request_body = {
 					    'requests' : [
 					        {
-					            'addchart':{
+					            'addChart':{
 					                'chart':{
 					                    'spec':{
-					                        'title': 'Time Tracking', #title of chart
+					                        'title': project, #title of chart
 					                        'basicChart' :{
 					                            'chartType': 'COLUMN',
-					                            'legendPosition' : 'BOTTOM_LEGEND'
+					                            'legendPosition' : 'BOTTOM_LEGEND',
 					                            'axis': [
 					                                # X-AIXS
 					                                {
-					                                    'position': "BOTTOM_AXIS"
+					                                    'position': "BOTTOM_AXIS",
 					                                    'title': 'User' #title of x-axis
 					                                },
 					                                # Y-AIXS
 					                                {
-					                                    'position': "LEFT_AXIS"
+					                                    'position': "LEFT_AXIS",
 					                                    'title': 'Time' #title of y-axis
 					                                }
 					                            ],
-
-					                            'series': [
+					                            
+					                            #chart lable
+					                            'domains': [
 					                                {
-					                                    'series': {
-					                                        'sourcesRange':{
+					                                    'domain': {
+					                                        'sourceRange':{
 					                                            'sources':[
 					                                                {
 					                                                    'sheetId': wsh.id,
 					                                                    'startRowIndex': 1, # set start Row here!
 					                                                    'endRowIndex': 8, # set end Row here!
-					                                                    'startColumnIndex': 1, # set start Column here!
+					                                                    'startColumnIndex': 0, # set start Column here!
+					                                                    'endColumnIndex': 1  # set end Column here!
+					                                                }
+					                                            ]
+					                                        }
+				                                        }
+			                                        }
+		                                        ],
+
+
+				                            	# chart data
+					                            'series': [
+					                                {
+					                                    'series': {
+					                                        'sourceRange':{
+					                                            'sources':[
+					                                                {
+					                                                    'sheetId': wsh.id,
+					                                                    'startRowIndex': 1, # set start Row here!
+					                                                    'endRowIndex': 8, # set end Row here!
+					                                                    'startColumnIndex': 2, # set start Column here!
 					                                                    'endColumnIndex': 3  # set end Column here!
 					                                                }
 					                                            ]
@@ -86,16 +108,17 @@ def generate_graph(title, project, data):
 					                        }
 					                    },
 					                    'position': {
-					                        ''
+					                        'newSheet': True
 					                    }
 					                }
 					            }
 					        }
 					    ]
 					}
-	response = service.spreadsheets().batchUpate(
+	response = service.spreadsheets().batchUpdate(
     spreadsheetId=sheet.id,
     body=request_body
 	).execute()
+
 if __name__ == '__main__':
-	generate_graph('new', 'd', data)
+	generate_graph('new', 'himmapan', data)
