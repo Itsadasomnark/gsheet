@@ -208,4 +208,4 @@ def add_record(project, user,path,duration=15):
 						new_path = old_path + ',{}'.format(path)
 						update_val_cell(ws, current_cell.row, 4, new_path)
 
-add_record('Boss and A','Park','D:/AnimeDS/scenes/him.mb')
+add_record('B','Park','D:/AnimeDS/scenes/him.mb')
