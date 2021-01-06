@@ -80,8 +80,22 @@ def generate_graph(title, project, data):
 					                                                    'endColumnIndex': 1  # set end Column here!
 					                                                }
 					                                            ]
+					                                        },
+					                                        'domain': {
+					                                        'sourceRange':{
+					                                            'sources':[
+					                                                {
+					                                                    'sheetId': wsh.id,
+					                                                    'startRowIndex': 1, # set start Row here!
+					                                                    'endRowIndex': 8, # set end Row here!
+					                                                    'startColumnIndex': 1, # set start Column here!
+					                                                    'endColumnIndex': 2  # set end Column here!
+					                                                }
+					                                            ]
 					                                        }
 				                                        }
+				                                        }
+
 			                                        }
 		                                        ],
 
@@ -92,17 +106,18 @@ def generate_graph(title, project, data):
 					                                    'series': {
 					                                        'sourceRange':{
 					                                            'sources':[
-					                                                {
+					                                                {			
 					                                                    'sheetId': wsh.id,
 					                                                    'startRowIndex': 1, # set start Row here!
 					                                                    'endRowIndex': 8, # set end Row here!
 					                                                    'startColumnIndex': 2, # set start Column here!
 					                                                    'endColumnIndex': 3  # set end Column here!
-					                                                }
+					                                                },
+
 					                                            ]
-					                                        }
+					                                        }    
 					                                    },
-					                                    'targetAxis': 'LEFT_AXIS'
+			                                    		'targetAxis': 'LEFT_AXIS',
 					                                }
 					                            ]
 					                        }
