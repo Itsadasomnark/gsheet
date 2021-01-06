@@ -43,6 +43,7 @@ def generate_graph(title, project, data):
 		department = data[key]['department']
 		hours = data[key]['hours']
 		wsh.append_row([key, department, hours])
+		print (len(data))
 	request_body = {
 					    'requests' : [
 					        {
@@ -75,7 +76,7 @@ def generate_graph(title, project, data):
 					                                                {
 					                                                    'sheetId': wsh.id,
 					                                                    'startRowIndex': 1, # set start Row here!
-					                                                    'endRowIndex': 8, # set end Row here!
+					                                                    'endRowIndex': len(data), # set end Row here!
 					                                                    'startColumnIndex': 0, # set start Column here!
 					                                                    'endColumnIndex': 1  # set end Column here!
 					                                                }
@@ -97,7 +98,7 @@ def generate_graph(title, project, data):
 					                                                {			
 					                                                    'sheetId': wsh.id,
 					                                                    'startRowIndex': 1, # set start Row here!
-					                                                    'endRowIndex': 8, # set end Row here!
+					                                                    'endRowIndex': len(data), # set end Row here!
 					                                                    'startColumnIndex': 2, # set start Column here!
 					                                                    'endColumnIndex': 3  # set end Column here!
 					                                                },
