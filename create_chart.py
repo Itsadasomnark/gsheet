@@ -90,3 +90,15 @@ response = service.spreadsheets().batchUpate(
                                                         }
                                                     }
                                                 }#############################################
+
+'overlayPosition': {
+    'anchorCell':{
+        'sheetId': wsh.id,
+        'rowIndex': 1,  #position
+        'columnIndex': 1
+    },
+    'offsetXPixels': 0,#scale
+    'offsetYPixels': 0,
+    'widthPixels': 800,
+    'heightPixels': 600
+}
