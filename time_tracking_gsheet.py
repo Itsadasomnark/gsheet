@@ -141,13 +141,6 @@ def generate_graph(credentials_file,title, project, data):
     body=request_body
 	).execute()
 	###################################################################################################################################
-parser = argparse.ArgumentParser()
-parser.add_argument('-c', dest='credential_file', help='credential file (str)', type=str, default='')
-parser.add_argument('-t', dest='title', help='title (str)', type=str, default='')
-parser.add_argument('-p', dest='project', help='project (str)', type=str, default='')
-parser.add_argument('-d', dest='data', help='data (dict)', type=dict, default='')
-
-
 if __name__ == '__main__':
 	params = parser.parse_args()
 	data = {	
@@ -160,4 +153,3 @@ if __name__ == '__main__':
 	}
 	keysfile = 'D:/scripts/gsheet/key/credentials.json'
 	generate_graph(credentials_file=keysfile, title='new', project='wee', data=data)
-	#generate_graph(credentials_file=params.credential_file, title=params.title, project=params.project, data=params.data)
