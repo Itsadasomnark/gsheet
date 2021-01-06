@@ -50,7 +50,7 @@ def generate_graph(title, project, data):
 					                'chart':{
 					                    'spec':{
 					                        'title': project, #title of chart
-					                        'basicChart' :{
+					                        'basicChart' : {
 					                            'chartType': 'COLUMN',
 					                            'legendPosition' : 'BOTTOM_LEGEND',
 					                            'axis': [
@@ -81,7 +81,7 @@ def generate_graph(title, project, data):
 					                                                }
 					                                            ]
 					                                        },
-					                                        
+
 				                                        }
 
 			                                        }
@@ -106,8 +106,27 @@ def generate_graph(title, project, data):
 					                                        }    
 					                                    },
 			                                    		'targetAxis': 'LEFT_AXIS',
+			                                    		"dataLabel": {
+														    "type": 'CUSTOM',
+														    "placement": 'CENTER',
+														    "customLabelData": {
+																		    'sourceRange':{
+									                                            'sources':[
+									                                                {			
+									                                                    'sheetId': wsh.id,
+									                                                    'startRowIndex': 1, # set start Row here!
+									                                                    'endRowIndex': 8, # set end Row here!
+									                                                    'startColumnIndex': 1, # set start Column here!
+									                                                    'endColumnIndex': 2  # set end Column here!
+									                                                },
+
+									                                            ]
+									                                        }
+																		}
+														},
+
 					                                }
-					                            ]
+					                            ],
 					                        }
 					                    },
 					                    'position': {
