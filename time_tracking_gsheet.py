@@ -81,19 +81,7 @@ def generate_graph(title, project, data):
 					                                                }
 					                                            ]
 					                                        },
-					                                        'domain': {
-					                                        'sourceRange':{
-					                                            'sources':[
-					                                                {
-					                                                    'sheetId': wsh.id,
-					                                                    'startRowIndex': 1, # set start Row here!
-					                                                    'endRowIndex': 8, # set end Row here!
-					                                                    'startColumnIndex': 1, # set start Column here!
-					                                                    'endColumnIndex': 2  # set end Column here!
-					                                                }
-					                                            ]
-					                                        }
-				                                        }
+					                                        
 				                                        }
 
 			                                        }
