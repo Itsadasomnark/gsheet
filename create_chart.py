@@ -67,3 +67,26 @@ response = service.spreadsheets().batchUpate(
     spreadsheetId=spreadsheet_id,
     body=request_body
 ).execute()
+
+
+                                            ,###########################################
+
+                                                #data lable
+                                                'totalDataLabel' : {
+                                                    'type' : 'DATA',
+                                                    'placement' : 'CENTER',
+                                                    'customLabelData' : {
+                                                        'sourceRange' :{
+                                                            'sources':[
+                                                                {
+                                                                    'sheetId': wsh.id,
+                                                                    'startRowIndex': 1, # set start Row here!
+                                                                    'endRowIndex': 8, # set end Row here!
+                                                                    'startColumnIndex': 2, # set start Column here!
+                                                                    'endColumnIndex': 3  # set end Column here!
+                                                                }
+                                                            ]
+
+                                                        }
+                                                    }
+                                                }#############################################
