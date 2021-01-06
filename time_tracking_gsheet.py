@@ -3,18 +3,7 @@ import gspread
 from pprint import pprint
 import pandas as pd
 from googleapiclient.discovery import build
-
-################# install gspread ##################
-######## install or upgrade oauth2client ###########
-
-data = {	
-	'Boss': {'hours': 8, 'department': 'intern'},
-	'Big': {'hours': 8, 'department': 'intern'},
-	'Ta': {'hours': 7, 'department':'pipeline'},
-	'Nunu': {'hours': 7, 'department':'pipeline'},
-	'Pia': {'hours': 7, 'department':'pipeline'},
-	'Tor': {'hours': 9, 'department':'pipeline'},
-	}
+import argparse
 
 def createAccount(keysfile):
 	scope = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
@@ -23,8 +12,7 @@ def createAccount(keysfile):
 	service = build('sheets', 'v4', credentials=credentials)
 	return client, service
 
-def generate_graph(title, project, data):
-	keysfile = 'D:/scripts/gsheet/key/credentials.json'
+def generate_graph(credentials_file,title, project, data):
 	
 	client, service = createAccount(keysfile)
 	try:
@@ -43,7 +31,7 @@ def generate_graph(title, project, data):
 		department = data[key]['department']
 		hours = data[key]['hours']
 		wsh.append_row([key, department, hours])
-		print (len(data))
+	########################################## Create Chart ###############################################	
 	request_body = {
 					    'requests' : [
 					        {
@@ -63,7 +51,7 @@ def generate_graph(title, project, data):
 					                                # Y-AIXS
 					                                {
 					                                    'position': "LEFT_AXIS",
-					                                    'title': 'Time' #title of y-axis
+					                                    'title': 'Hours' #title of y-axis
 					                                }
 					                            ],
 					                            
@@ -75,8 +63,8 @@ def generate_graph(title, project, data):
 					                                            'sources':[
 					                                                {
 					                                                    'sheetId': wsh.id,
-					                                                    'startRowIndex': 1, # set start Row here!
-					                                                    'endRowIndex': len(data), # set end Row here!
+					                                                    'startRowIndex': 0, # set start Row here!
+					                                                    'endRowIndex': len(data)+1, # set end Row here!
 					                                                    'startColumnIndex': 0, # set start Column here!
 					                                                    'endColumnIndex': 1  # set end Column here!
 					                                                }
@@ -97,8 +85,8 @@ def generate_graph(title, project, data):
 					                                            'sources':[
 					                                                {			
 					                                                    'sheetId': wsh.id,
-					                                                    'startRowIndex': 1, # set start Row here!
-					                                                    'endRowIndex': len(data), # set end Row here!
+					                                                    'startRowIndex': 0, # set start Row here!
+					                                                    'endRowIndex': len(data)+1, # set end Row here!
 					                                                    'startColumnIndex': 2, # set start Column here!
 					                                                    'endColumnIndex': 3  # set end Column here!
 					                                                },
@@ -115,8 +103,8 @@ def generate_graph(title, project, data):
 									                                            'sources':[
 									                                                {			
 									                                                    'sheetId': wsh.id,
-									                                                    'startRowIndex': 1, # set start Row here!
-									                                                    'endRowIndex': 8, # set end Row here!
+									                                                    'startRowIndex': 0, # set start Row here!
+									                                                    'endRowIndex': len(data)+1, # set end Row here!
 									                                                    'startColumnIndex': 1, # set start Column here!
 									                                                    'endColumnIndex': 2  # set end Column here!
 									                                                },
@@ -131,7 +119,17 @@ def generate_graph(title, project, data):
 					                        }
 					                    },
 					                    'position': {
-					                        'newSheet': True
+					                        'overlayPosition': {
+												    'anchorCell':{
+												        'sheetId': wsh.id,
+												        'rowIndex': 1,  #position
+												        'columnIndex': 6
+												    },
+												    'offsetXPixels': 0,#scale
+												    'offsetYPixels': 0,
+												    'widthPixels': 700,
+												    'heightPixels': 500
+												}	
 					                    }
 					                }
 					            }
@@ -142,6 +140,24 @@ def generate_graph(title, project, data):
     spreadsheetId=sheet.id,
     body=request_body
 	).execute()
+	###################################################################################################################################
+parser = argparse.ArgumentParser()
+parser.add_argument('-c', dest='credential_file', help='credential file (str)', type=str, default='')
+parser.add_argument('-t', dest='title', help='title (str)', type=str, default='')
+parser.add_argument('-p', dest='project', help='project (str)', type=str, default='')
+parser.add_argument('-d', dest='data', help='data (dict)', type=dict, default='')
+
 
 if __name__ == '__main__':
-	generate_graph('new', 'himmapan', data)
+	params = parser.parse_args()
+	data = {	
+	'Boss': {'hours': 8, 'department': 'intern'},
+	'Big': {'hours': 8, 'department': 'intern'},
+	'Ta': {'hours': 7, 'department':'pipeline'},
+	'Nunu': {'hours': 7, 'department':'pipeline'},
+	'Pia': {'hours': 7, 'department':'pipeline'},
+	'Tor': {'hours': 9, 'department':'pipeline'},
+	}
+	keysfile = 'D:/scripts/gsheet/key/credentials.json'
+	generate_graph(credentials_file=keysfile, title='new', project='wee', data=data)
+	#generate_graph(credentials_file=params.credential_file, title=params.title, project=params.project, data=params.data)
