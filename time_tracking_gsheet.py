@@ -154,7 +154,7 @@ def generate_graph(credentials_file,title, project, data):
        + '&gid=' + str(wsh.id)  # sheetId
        + '&access_token=' + token)  # access token
 	webbrowser.open_new_tab(url)
-	###################################################################################################################################
+	##################################################################################################################################
 if __name__ == '__main__':
 	data = {	
 	'Boss': {'hours': 8, 'department': 'intern'},
@@ -166,3 +166,4 @@ if __name__ == '__main__':
 	}
 	keysfile = 'D:/scripts/gsheet/key/credentials.json'
 	generate_graph(credentials_file=keysfile, title='new', project='Himmapan', data=data)
+
