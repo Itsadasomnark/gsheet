@@ -4,34 +4,36 @@ from pprint import pprint
 import pandas as pd
 from googleapiclient.discovery import build
 import argparse
+import webbrowser
+
 
 def createAccount(keysfile):
 	scope = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
 	credentials = ServiceAccountCredentials.from_json_keyfile_name(keysfile,scope)
 	client = gspread.authorize(credentials)
 	service = build('sheets', 'v4', credentials=credentials)
-	return client, service
+	token = credentials.token_uri
+	return client, service, token
 
 def generate_graph(credentials_file,title, project, data):
-	
-	client, service = createAccount(keysfile)
+	client, service, token = createAccount(keysfile)
 	try:
-		sheet = client.open(title)
+		gsheet = client.open(title)
 	except:
-		sheet = sheet = client.create(title)
+		gsheet = client.create(title)
 		email = 'bossdevil62@gmail.com'
-		sheet.share(email, 'user', 'owner')
+		gsheet.share(email, 'user', 'owner')
 	try:
-		wsh = sheet.worksheet(project)
+		wsh = gsheet.worksheet(project)
 	except:
-		sheet.add_worksheet(title=project, rows=1000, cols=1000,index=None)
-		wsh = sheet.worksheet(project)
+		gsheet.add_worksheet(title=project, rows=1000, cols=1000,index=None)
+		wsh = gsheet.worksheet(project)
 		wsh.append_row(['User', 'Department', 'Hours'])
 	for key in data.keys():
 		department = data[key]['department']
 		hours = data[key]['hours']
 		wsh.append_row([key, department, hours])
-	########################################## Create Chart ###############################################	
+	# Create Chart #
 	request_body = {
 					    'requests' : [
 					        {
@@ -123,7 +125,7 @@ def generate_graph(credentials_file,title, project, data):
 												    'anchorCell':{
 												        'sheetId': wsh.id,
 												        'rowIndex': 1,  #position
-												        'columnIndex': 6
+												        'columnIndex': 4
 												    },
 												    'offsetXPixels': 0,#scale
 												    'offsetYPixels': 0,
@@ -137,12 +139,23 @@ def generate_graph(credentials_file,title, project, data):
 					    ]
 					}
 	response = service.spreadsheets().batchUpdate(
-    spreadsheetId=sheet.id,
+    spreadsheetId=gsheet.id,
     body=request_body
 	).execute()
+	# Download Spreadsheet as PDF file #
+	url = ('https://docs.google.com/spreadsheets/d/' + str(gsheet.id) + '/export?'
+       + 'format=pdf'  # export as PDF
+       + '&portrait=false'  # landscape
+       + '&top_margin=0.00'  # Margin
+       + '&bottom_margin=0.00'  # Margin
+       + '&left_margin=0.00'  # Margin
+       + '&right_margin=0.00'  # Margin
+       + '&pagenum=RIGHT'  # Put page number to right of footer
+       + '&gid=' + str(wsh.id)  # sheetId
+       + '&access_token=' + token)  # access token
+	webbrowser.open_new_tab(url)
 	###################################################################################################################################
 if __name__ == '__main__':
-	params = parser.parse_args()
 	data = {	
 	'Boss': {'hours': 8, 'department': 'intern'},
 	'Big': {'hours': 8, 'department': 'intern'},
@@ -152,4 +165,4 @@ if __name__ == '__main__':
 	'Tor': {'hours': 9, 'department':'pipeline'},
 	}
 	keysfile = 'D:/scripts/gsheet/key/credentials.json'
-	generate_graph(credentials_file=keysfile, title='new', project='wee', data=data)
+	generate_graph(credentials_file=keysfile, title='new', project='Himmapan', data=data)
