@@ -156,14 +156,20 @@ def generate_graph(credentials_file,title, project, data):
 	webbrowser.open_new_tab(url)
 	##################################################################################################################################
 if __name__ == '__main__':
-	data = {	
-	'Boss': {'hours': 8, 'department': 'intern'},
-	'Big': {'hours': 8, 'department': 'intern'},
-	'Ta': {'hours': 7, 'department':'pipeline'},
-	'Nunu': {'hours': 7, 'department':'pipeline'},
-	'Pia': {'hours': 7, 'department':'pipeline'},
-	'Tor': {'hours': 9, 'department':'pipeline'},
-	}
 	keysfile = 'D:/scripts/gsheet/key/credentials.json'
-	generate_graph(credentials_file=keysfile, title='new', project='Himmapan', data=data)
-
+	client, service, token = createAccount(keysfile)
+	gsheet = client.open('Boss')
+	list_data = [
+				['user','work type','hour','date'],
+				['a','a','a','a']
+				]
+	
+	service.spreadsheets().values().append(
+        spreadsheetId = gsheet.id,
+        range="Himmapan!A:Z",
+        body={
+            "majorDimension": "ROWS",
+            "values": list_data
+        },
+        valueInputOption="USER_ENTERED"
+    ).execute()
